@@ -40,7 +40,7 @@ module "lambda_function" {
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = module.s3.bucket_name
+  bucket = module.s3.src_bucket_name
 
   lambda_function {
     lambda_function_arn = module.lambda_function.arn
