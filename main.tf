@@ -14,21 +14,17 @@ provider "aws" {
   region = "eu-west-1"
 }
 module "source_bucket" {
-  source      = "./modules/source_bucket"
-  bucket_name = "bucket-for-image14"
-}
-
-module "destination_bucket" {
-  source      = "./modules/destination_bucket"
-  bucket_name = "bucket-for-storing14"
+  source      = "./modules/s3"
+  src-bucket_name = "source-images-bucket-273550"
+  dest-bucket_name = "processed-images-bucket-273550"
 }
 
 module "iam" {
   source             = "./modules/iam"
   role_name          = "lambda_exec_role"
   policy_name        = "lambda_policy"
-  source_bucket      = module.source_bucket.bucket_name
-  destination_bucket = module.destination_bucket.bucket_name
+  source_bucket      = module.s3.src_bucket_name
+  destination_bucket = module.s3.dest_bucket_name
 }
 
 module "lambda_function" {
