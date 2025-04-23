@@ -11,20 +11,24 @@ terraform {
   }
 }
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-west-1"
 }
-module "s3" {
-  source      = "./modules/s3"
-  src_bucket_name = "source-images-bucket-273550"
-  dest_bucket_name = "processed-images-bucket-273550"
+module "source_bucket" {
+  source      = "./modules/source_bucket"
+  bucket_name = "bucket-for-image14"
+}
+
+module "destination_bucket" {
+  source      = "./modules/destination_bucket"
+  bucket_name = "bucket-for-storing14"
 }
 
 module "iam" {
   source             = "./modules/iam"
   role_name          = "lambda_exec_role"
   policy_name        = "lambda_policy"
-  source_bucket      = module.s3.src_bucket_name
-  destination_bucket = module.s3.dest_bucket_name
+  source_bucket      = module.source_bucket.bucket_name
+  destination_bucket = module.destination_bucket.bucket_name
 }
 
 module "lambda_function" {
@@ -35,12 +39,12 @@ module "lambda_function" {
   role_arn             = module.iam.lambda_exec_role_arn
   filename             = "lambda.zip"
   environment_variables = {
-    DEST_BUCKET = module.s3.dest_bucket_name
+    DEST_BUCKET = module.destination_bucket.bucket_name
   }
 }
 
 resource "aws_s3_bucket_notification" "bucket_notification" {
-  bucket = module.s3.src_bucket_name
+  bucket = module.source_bucket.bucket_name
 
   lambda_function {
     lambda_function_arn = module.lambda_function.arn
@@ -55,6 +59,6 @@ resource "aws_lambda_permission" "allow_s3_invocation" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_function.function_name
   principal     = "s3.amazonaws.com"
-  source_arn    = module.s3.arn
+  source_arn    = module.source_bucket.arn
 }
 
