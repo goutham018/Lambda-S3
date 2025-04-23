@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "src" {
-  bucket = var.bucket_name
+  bucket = var.src-bucket_name
 }
 
 variable "src-bucket_name" {
@@ -8,7 +8,7 @@ variable "src-bucket_name" {
 }
 
 resource "aws_s3_bucket" "dest" {
-  bucket = var.bucket_name
+  bucket = var.dest_bucket_name
 }
 
 variable "dest_bucket_name" {
