@@ -35,7 +35,7 @@ module "lambda_function" {
   role_arn             = module.iam.lambda_exec_role_arn
   filename             = "lambda.zip"
   environment_variables = {
-    DEST_BUCKET = module.s3.bucket_name
+    DEST_BUCKET = module.s3.dest_bucket_name
   }
 }
 
