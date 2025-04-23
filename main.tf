@@ -15,12 +15,12 @@ provider "aws" {
 }
 module "source_bucket" {
   source      = "./modules/source_bucket"
-  bucket_name = "bucket-for-image14"
+  bucket_name = "source-images-bucket-273550"
 }
 
 module "destination_bucket" {
   source      = "./modules/destination_bucket"
-  bucket_name = "bucket-for-storing14"
+  bucket_name = "processed-images-bucket-273550"
 }
 
 module "iam" {
