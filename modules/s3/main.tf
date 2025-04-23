@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "src" {
-  bucket = var.src-bucket_name
+  bucket = var.src_bucket_name
 }
 
-variable "src-bucket_name" {
+variable "src_bucket_name" {
   description = "The name of the S3 bucket"
   type        = string
 }

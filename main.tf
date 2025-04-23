@@ -15,7 +15,7 @@ provider "aws" {
 }
 module "s3" {
   source      = "./modules/s3"
-  src-bucket_name = "source-images-bucket-273550"
+  src_bucket_name = "source-images-bucket-273550"
   dest_bucket_name = "processed-images-bucket-273550"
 }
 
